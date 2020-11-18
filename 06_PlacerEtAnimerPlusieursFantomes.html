@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <title>06 - Placer et animer plusieurs fantômes</title>
+    <style type="text/css">
+        canvas {
+            background-color: #393939;
+        }
+
+        p {
+            font: bold italic 14px Arial;
+        }
+    </style>
+</head>
+
+<body>
+
+    <p>On place d'abord les fantômes avec une boucle for puis on les anime les 4 en même temps....</p>
+    <canvas width="640" height="328"> </canvas>
+
+    <script>
+        //Récupération du canvas
+        let leCanvas = document.querySelector("canvas");
+        let ctx = leCanvas.getContext("2d");
+
+        let fantomeBlinky = {
+            img: new Image(),
+            largeur: 82,
+            hauteur: 82,
+            posX: 0,
+            posY: 0,
+            vitesseX: 3
+        }
+        //L'image de ce fantôme
+        fantomeBlinky.img.src = "images/Blinky.png";
+
+        //Pinky
+        let fantomePinky = {
+            img: new Image(),
+            largeur: 82,
+            hauteur: 82,
+            posX: 0,
+            posY: 0, // Anciennement leCanvas.height * 0.25
+            vitesseX: 3
+        }
+        //L'image de ce fantôme
+        fantomePinky.img.src = "images/Pinky.png";
+
+        //Pinky
+        let fantomeInky = {
+            img: new Image(),
+            largeur: 82,
+            hauteur: 82,
+            posX: 0,
+            posY: 0, // Anciennement leCanvas.height * 0.5,
+            vitesseX: 3
+        }
+        //L'image de ce fantôme
+        fantomeInky.img.src = "images/Inky.png";
+
+        //Clyde
+        let fantomeClyde = {
+            img: new Image(),
+            largeur: 82,
+            hauteur: 82,
+            posX: 0,
+            posY: 0, // Anciennement leCanvas.height * 0.75,
+            vitesseX: 3
+        }
+        //L'image de ce fantôme
+        fantomeClyde.img.src = "images/Clyde.png";
+
+        //Tableau qui  contient les 4 fantômes
+        let lesFantomes = [fantomeBlinky, fantomePinky, fantomeInky, fantomeClyde];
+
+        //Positionnement des fantômes sur l'axe des y et des y avec une boucle for
+
+
+
+        ///////////////////////////////////////////////////////////////////////
+
+
+        //On actualise le jeu à une cadence de 670 images par secondes
+        setInterval(actualiserLeJeu, 1000 / 60);
+
+        /////////////// Les fonctions //////////
+
+        function actualiserLeJeu() {
+            //Effacer le canvas
+            ctx.clearRect(0, 0, leCanvas.width, leCanvas.height);
+
+            //Deplacer les 4 fantômes
+            deplacerLesFantomes();
+
+
+        }
+
+        function deplacerLesFantomes() {
+            //Déplacer et dessiner les 4 fantômes
+            for (let unFantome of lesFantomes) {
+                //Les fantômes se déplacent uniquement sur l'axe des X
+                unFantome.posX += unFantome.vitesseX;
+                //Le fantôme ne dépasse pas les limites du canvas
+                let posXmax = leCanvas.width - unFantome.largeur
+                if (unFantome.posX < 0 || unFantome.posX > posXmax) {
+                    //on inverse la vitesse
+                    unFantome.vitesseX *= -1;
+                }
+
+                //Dessiner ce fantôme
+                ctx.drawImage(unFantome.img, unFantome.posX, unFantome.posY)
+            }
+        }
+    </script>
+
+</body></html>

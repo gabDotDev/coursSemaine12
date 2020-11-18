@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <title>01 - Audio avec JavaScript</title>
+    <style type="text/css">
+        canvas {
+            background-image: url("images/pacMan_40Ans.jpg");
+            cursor: pointer;
+        }
+
+        p {
+            font: bold italic 14px Arial;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <p>PACMAN FÊTE SES 40 ANS!</p>
+    <p>Cliquer sur le canvas ou sur une touche du clavier pour faire jouer ou arrêter le son...</p>
+
+    <canvas width="600" height=" 350"> </canvas>
+
+    <script>
+        //Récupération du canvas
+        let leCanvas = document.querySelector("canvas");
+        let ctx = leCanvas.getContext("2d");
+
+        //Variable pour le son de Pacman
+        let sonPacman;
+
+        //Variable pour gérer le son - Au démarrage le son ne joue pas
+        let sonJoue;
+        //Essayer de faire jouer le son...
+
+        //Ne jouera pas...Voir message dans la console...Les navigateurs modernes empêchent la lecture d'un son au démarrage d'une page
+
+
+        //////////////////////////////////////////////////////////
+
+        //Gestionnaire d'événement sur la balise canvas pour faire jouer le son
+        leCanvas.addEventListener("click", jouerSon);
+        //Gestionnaire d'événement pour faire jouer le son si une touche est relâchée
+        document.addEventListener("keyup", jouerSon);
+
+        //////////////////// Les fonctions //////////////////////////
+
+
+        function jouerSon() {
+            //Si le son ne joue pas on le fait jouer sinon on l'arrête
+            if (true) {
+                //Faire jouer le son en boucle
+
+            } else {
+
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>

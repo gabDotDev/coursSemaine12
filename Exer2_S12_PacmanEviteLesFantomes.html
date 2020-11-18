@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Exercice 02 - Semaine 12</title>
+    <style type="text/css">
+        canvas {
+            background-color: #393939;
+        }
+
+        p {
+            font: bold italic 14px Arial;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <p>Le défi de Pac-Man: Réussir à atteindre le haut du canvas sans toucher à un fantôme... <br> Déplacer-le avec les flèches <b>&#8593; ou &#8595;</b> du clavier</p>
+    <canvas width="640" height=" 600"> </canvas>
+
+    <script>
+        //Récupération du canvas
+        let leCanvas = document.querySelector("canvas");
+        let ctx = leCanvas.getContext("2d");
+
+        //Objets pour créer les 4 fantômes de Pacman
+        //Blinky
+        let fantomeBlinky = {
+            img: new Image(),
+            nom: "Blinky",
+            largeur: 82,
+            hauteur: 82,
+            posX: 0,
+            posY: leCanvas.height * 1 / 6,
+            vitesseX: 3
+        }
+        //L'image de ce fantôme
+        fantomeBlinky.img.src = "images/Blinky.png";
+
+        //Pinky
+        let fantomePinky = {
+            img: new Image(),
+            nom: "Pinky",
+            largeur: 82,
+            hauteur: 82,
+            posX: 0,
+            posY: leCanvas.height * 2 / 6,
+            vitesseX: 3
+        }
+        //L'image de ce fantôme
+        fantomePinky.img.src = "images/Pinky.png";
+
+        //Pinky
+        let fantomeInky = {
+            img: new Image(),
+            nom: "Inky",
+            largeur: 82,
+            hauteur: 82,
+            posX: 0,
+            posY: leCanvas.height * 3 / 6,
+            vitesseX: 3
+        }
+        //L'image de ce fantôme
+        fantomeInky.img.src = "images/Inky.png";
+
+        //Clyde
+        let fantomeClyde = {
+            img: new Image(),
+            nom: "Clyde",
+            largeur: 82,
+            hauteur: 82,
+            posX: 0,
+            posY: leCanvas.height * 4 / 6,
+            vitesseX: 3
+        }
+        //L'image de ce fantôme
+        fantomeClyde.img.src = "images/Clyde.png";
+
+
+        //Tableau qui  contient les 4 fantômes
+        let lesFantomes = [fantomeBlinky, fantomePinky, fantomeInky, fantomeClyde];
+
+        //Au démarrage on met la position sur l'axe des X de chaque fantôme au hasard
+        ajusterPositionXDesFantomes();
+
+        //L'objet pour Pacman
+        let pacman = {
+            img: new Image(),
+            largeur: 100,
+            hauteur: 100,
+            posX: 0,
+            posY: 0,
+            vitesseY: 3
+        }
+        //L'image de Pacman
+        pacman.img.src = "images/pacman.png";
+
+        //Au démarrage Pacman est placé en bas et au centre du canvas
+
+
+        //Les sons si Pacman est attrapé par un fantôme (sonPerd) ou s'il gagne (sonGagne)
+
+        //Variable pour la fin du jeu
+        let finJeu = false;
+
+        //Les flèches du clavier
+        let flecheHaut = false;
+        let flecheBas = false;
+
+
+        /////////////////////////////////////////////
+
+        //On actualise le jeu à une cadence de 60 images par secondes
+        let intervalIDActualiserJeu = setInterval(actualiserLeJeu, 1000 / 60);
+
+        //Écouteur sur le document pour détecter si des touches de clavier sont appuyées ou relâchées
+        document.addEventListener("keydown", presserTouche);
+        document.addEventListener("keyup", relacherTouche);
+
+        /////////////// Les fonctions /////////////// 
+
+        function actualiserLeJeu() {
+            console.log("actualiserJeu");
+            //Effacer le canvas
+            ctx.clearRect(0, 0, leCanvas.width, leCanvas.height);
+
+            //Deplacer les 4 fantômes
+            deplacerLesFantomes();
+
+            //Déplacer Pacman
+            deplacerPacman();
+
+            //S'il y a une collision entre Pacman et un des fantômes
+            //C'est la fin du jeu
+            //On fait jouer le son pour la défaite de Pacman
+            //On mémorise que le jeu est terminé
+            let siPacmanToucheUnFantome;
+
+            //for...
+
+            //Si Pacman arrive en haut de la scène, c'est aussi la fin du jeu
+            //Et, Pacman gagne
+            //On fait jouer le son pour la réussite de Pacman
+            //On mémorise que le jeu est terminé
+
+            //if...
+            
+            //Si le jeu est fini, on arrête la minuterie en cours
+            if (finJeu == true) {
+                clearInterval(intervalIDActualiserJeu);
+            }
+        }
+
+        // Détecte quelles touches sont appuyées
+        function presserTouche(event) {
+            //Enregistrer si une touche haut/bas est pressée
+            if (event.keyCode == 38) { //flèche haut
+                flecheHaut = true;
+                flecheBas = false;
+            }
+            if (event.keyCode == 40) { //flèche bas
+                flecheBas = true;
+                flecheHaut = false;
+            }
+        }
+
+        // Détecte quelles touches sont relâchées
+        function relacherTouche(event) {
+            //Enregistrer si une touche haut/bas est relâchée
+            if (event.keyCode == 38) { //flèche haut
+                flecheHaut = false;
+            }
+            if (event.keyCode == 40) { //flèche bas
+                flecheBas = false;
+            }
+        }
+
+        //Fonction pour mettre une position au hasard
+        //sur l'axe des X à chaque fantôme
+        function ajusterPositionXDesFantomes() {
+            //Pour chaque fantôme on met une position au hasard sur l'axe des x
+            for (let unFantome of lesFantomes) {
+                unFantome.posX = Math.random() * (leCanvas.width - unFantome.largeur);
+            }
+
+        }
+
+        //Fonction pour déplacer et dessiner tous les fantômes
+        function deplacerLesFantomes() {
+            //Déplacer et dessiner les 4 fantômes
+            for (let unFantome of lesFantomes) {
+                //Les fantômes se déplacent uniquement sur l'axe des X
+                unFantome.posX += unFantome.vitesseX;
+                //Le fantôme ne dépasse pas les limites du canvas
+                let posXmax = leCanvas.width - unFantome.largeur
+                if (unFantome.posX < 0 || unFantome.posX > posXmax) {
+                    //on inverse la vitesse
+                    unFantome.vitesseX *= -1;
+                }
+
+                //Dessiner ce fantôme
+                ctx.drawImage(unFantome.img, unFantome.posX, unFantome.posY)
+            }
+        }
+
+        //Fonction pour déplacer verticalement le pacman
+        function deplacerPacman() {
+            //On déplace pacman selon la touche active
+            if (flecheHaut) {
+                pacman.posY -= pacman.vitesseY;
+                }
+            if (flecheBas) {
+                pacman.posY += pacman.vitesseY;
+            }
+
+            //S'assurer que le pacman ne sort pas des limites du canvas
+            //Limite haut
+            if (pacman.posY < 0) {
+                pacman.posY = 0;
+            }
+
+            //Limite bas
+            let posYmax = leCanvas.height - pacman.hauteur;
+            if (pacman.posY > posYmax) {
+                pacman.posY = posYmax;
+            }
+
+            //Dessiner Pacman
+            ctx.drawImage(pacman.img, pacman.posX, pacman.posY)
+
+        }
+
+        //Détecte si deux objets circulaires se touchent
+        function detecterCollisionCercle(objet1, objet2) {
+            //Calculs des rayons
+            let rayonObjet1 = objet1.largeur / 2;
+            let rayonObjet2 = objet2.largeur / 2;
+            //Distance entre les 2 objets sur l'axe des X
+            let distanceX = (objet1.posX + rayonObjet1) - (objet2.posX + rayonObjet2);
+            //Distance entre les 2 objets sur l'axe des Y
+            let distanceY = (objet1.posY + rayonObjet1) - (objet2.posY + rayonObjet2);
+            //Calcul de la distance réelle entre les deux objets (hypoténuse)
+            let distanceXY = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+            //Si la distance entre les 2 objets est plus petite que la somme de leur rayon
+            if (distanceXY < rayonObjet1 + rayonObjet2) {
+                return true;
+
+            } else {
+                return false;
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <title>03 - Afficher un fantôme au hasard</title>
+    <style type="text/css">
+        canvas {
+            background-color: #393939;
+        }
+
+        p {
+            font: bold italic 14px Arial;
+        }
+    </style>
+</head>
+
+<body>
+
+    <p>On change de fantôme à tous les 2 secondes</p>
+    <canvas width="300" height=" 300"> </canvas>
+
+    <script>
+        //Récupération du canvas
+        let leCanvas = document.querySelector("canvas");
+        let ctx = leCanvas.getContext("2d");
+
+        //Objet pour afficher un fantôme
+        let fantome = {
+            img: new Image(),
+            largeur: 82,
+            hauteur: 82,
+            posX: 0,
+            posY: 0
+        }
+
+        //Le fantôme sera dessiné au centre du canvas
+        fantome.posX = (leCanvas.width - fantome.largeur) / 2;
+        fantome.posY = (leCanvas.height - fantome.hauteur) / 2;
+
+        let nomFantome = ""; //Le nom du fantôme qui sera choisi au hasard
+
+        ///////////////////////////////////////////////////////////////////////
+
+
+        //Dessiner le fantôme
+        setInterval(dessinerLeFantome, 1000 / 60);
+
+        //Choisir un premier fantôme
+
+
+        //On change l'image du fantôme à toutes les 2 secondes
+
+
+        /////////////// Les fonctions //////////
+        function dessinerLeFantome() {
+            //Effacer le canvas
+            ctx.clearRect(0, 0, leCanvas.width, leCanvas.height);
+
+            //Dessiner le fantôme
+
+
+            //Afficher le nom du fantôme
+
+        }
+
+        function choisirUnFantome() {
+            //Tableau des fantomes de PacMan
+            let lesFantomes = ["Blinky", "Pinky", "Inky", "Clyde"];
+
+            let indexHasard;
+            console.log("À l'index : ", indexHasard, " c'est ");
+
+            //Mémoriser le nom du fantôme affiché
+            nomFantome;
+
+            //Charger l'image de ce fantôme
+            fantome.img.src = "images/" + ".png";
+        }
+
+
+        //Fonction pour dessiner le nom du fantôme choisi
+        function afficherNomFantome(nomFantome) {
+            //Styles du texte      
+            ctx.font = "bold italic 42px Calibri";
+            ctx.textBaseline = "top";
+            ctx.textAlign = "center";
+            ctx.fillStyle = "#ffffff";
+            ctx.textAlign = "center";
+            ctx.fillText(nomFantome, leCanvas.width / 2, 0);
+        }
+    </script>
+
+</body></html>
