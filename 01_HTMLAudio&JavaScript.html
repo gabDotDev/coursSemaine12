@@ -30,11 +30,14 @@
         let ctx = leCanvas.getContext("2d");
 
         //Variable pour le son de Pacman
-        let sonPacman;
-
+        let sonPacman = new Audio();
+        sonPacman.src = "sons/sonPacman.mp3";
+        sonPacman.volume = 0.05;
+        
         //Variable pour gérer le son - Au démarrage le son ne joue pas
         let sonJoue;
         //Essayer de faire jouer le son...
+        //sonPacman.play();
 
         //Ne jouera pas...Voir message dans la console...Les navigateurs modernes empêchent la lecture d'un son au démarrage d'une page
 
@@ -51,13 +54,15 @@
 
         function jouerSon() {
             //Si le son ne joue pas on le fait jouer sinon on l'arrête
-            if (true) {
+            if (sonJoue == false) {
                 //Faire jouer le son en boucle
+                sonPacman.loop = true;
+                sonPacman.play();
 
             } else {
-
+                sonPacman.pause();
             }
-
+            sonJoue = !sonJoue;
         }
 
     </script>

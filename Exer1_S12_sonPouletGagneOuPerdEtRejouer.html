@@ -70,8 +70,14 @@
         let flecheBas = false;
 
         //Les sons du jeu : sonGagne et sonPerd
+        let sonGagne = new Audio();
+        sonGagne.src = "sons/sonGagne.mp3";
+
+        let sonPerd = new Audio();
+        sonPerd.src = "sons/sonPerd.mp3";
 
         //Variable globale : finJeu pour gérer la fin du jeu - false au départ
+        let finJeu = false;
 
 
         /////////////////////////////////////////////////////
@@ -109,6 +115,9 @@
             if (siCollisionPouletbatiment) {
                 poulet.img.src = "images/volPoulet_Perd.png";
                 //Faire jouer le son pour signaler que le poulet a perdu
+                finJeu = true;
+                sonPerd.play();
+                
 
 
             }
@@ -118,8 +127,9 @@
             if (batiment.posX < -batiment.largeur) {
                 poulet.img.src = "images/volPoulet_Gagne.png";
                 //Faire jouer le son pour signaler que le poulet a gagné
-
+                sonGagne.play();
                 //Se souvenir que le jeu est terminé
+                finJeu = true;
             }
 
             //Si le jeu est fini, on arrête les minuteries en cours
@@ -156,7 +166,10 @@
             }
 
             //Si le jeu est fini et que la touche R est relâchée
-            //On repart le jeu i.-e qu'on recharger (ou actualise) la page HTML
+            if (finJeu == true || event.keyCode == 82){
+                //On repart le jeu i.-e qu'on recharger (ou actualise) la page HTML
+                location.reload(); 
+            }
         }
 
         //Fonction pour déplacer le poulet
