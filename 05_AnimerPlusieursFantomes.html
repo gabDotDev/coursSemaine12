@@ -77,10 +77,12 @@
 
 
         //Tableau qui  contient les 4 fantômes
-        let lesFantomes;
+        let lesFantomes = [fantomeBlinky, fantomeClyde, fantomeInky, fantomePinky];
 
         //Au démarrage on met la position sur l'axe des X de chaque fantôme au hasard
-
+        for(i of lesFantomes){
+           i.posX = Math.random()*(leCanvas.width - i.largeur);
+        }
 
 
         ///////////////////////////////////////////////////////////////////////
@@ -96,13 +98,7 @@
             ctx.clearRect(0, 0, leCanvas.width, leCanvas.height);
 
             //Deplacer les 4 fantômes
-
-
-        }
-
-        function ajusterPositionXDesFantomes() {
-            //Pour chaque fantôme on met une position au hasard sur l'axe des x
-
+            deplacerLesFantomes();
 
         }
 
@@ -112,7 +108,15 @@
             //Les fantômes ne dépassent pas les limites du canvas
             //Sinon on inverse leur vitesse sur l'axe des X
             //Puis on dessine chaque fantôme
+            for(i of lesFantomes){
+                i.posX += i.vitesseX;
+                if(i.posX < 0 || i.posX > leCanvas.width - i.largeur){
+                    i.vitesseX *=-1;
+                }
 
+                ctx.drawImage(i.img, i.posX, i.posY);
+
+            }
         }
 
     </script>

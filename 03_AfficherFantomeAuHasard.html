@@ -47,10 +47,10 @@
         setInterval(dessinerLeFantome, 1000 / 60);
 
         //Choisir un premier fantôme
-
+        choisirUnFantome();
 
         //On change l'image du fantôme à toutes les 2 secondes
-
+        setInterval(choisirUnFantome, 2000);
 
         /////////////// Les fonctions //////////
         function dessinerLeFantome() {
@@ -58,24 +58,24 @@
             ctx.clearRect(0, 0, leCanvas.width, leCanvas.height);
 
             //Dessiner le fantôme
-
+            setInterval(dessinerLeFantome, 1000/60);
 
             //Afficher le nom du fantôme
-
+            afficherNomFantome();
         }
 
         function choisirUnFantome() {
             //Tableau des fantomes de PacMan
             let lesFantomes = ["Blinky", "Pinky", "Inky", "Clyde"];
 
-            let indexHasard;
-            console.log("À l'index : ", indexHasard, " c'est ");
+            let indexHasard = Math.floor(Math.random()*3);
+            console.log("À l'index : ", indexHasard, " c'est " + lesFantomes[indexHasard]);
 
             //Mémoriser le nom du fantôme affiché
-            nomFantome;
+            nomFantome = lesFantomes[indexHasard];
 
             //Charger l'image de ce fantôme
-            fantome.img.src = "images/" + ".png";
+            fantome.img.src = "images/" + nomFantome + ".png";
         }
 
 
@@ -87,7 +87,7 @@
             ctx.textAlign = "center";
             ctx.fillStyle = "#ffffff";
             ctx.textAlign = "center";
-            ctx.fillText(nomFantome, leCanvas.width / 2, 0);
+            ctx.fillText(String(nomFantome[indexHasard]), leCanvas.width / 2, 0);
         }
     </script>
 
